@@ -35,7 +35,7 @@ def read_data(sc):
     dataset = spark.read.csv("/user/datasets/ecbdl14/ECBDL14_IR2.data", header=False, inferSchema=True)
 
     # replace  datset colums 
-    for c in range(0, len(datdataseta.columns)):
+    for c in range(0, len(datdataset.columns)):
         data = dataset.withColumnRenamed(data.columns[c], columsList[c])
 
     # select only my columns
