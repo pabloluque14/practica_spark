@@ -1,5 +1,5 @@
 import sys
-from pyspark import SparkContext, SparkConf
+from pyspark import SparkContext, SparkConf, SQLContext
 from pyspark.ml.classification import LogisticRegression
 from pyspark.sql import SparkSession
 
@@ -33,11 +33,13 @@ def read_data(sc):
 
     # read csv file with no heather and activating the infering schema mode
     #dataset = spark.read.csv("/user/datasets/ecbdl14/ECBDL14_IR2.data", header=False, inferSchema=True)
+    
+    sqlc = SQLContext(sc)
+    dataset = sqlc.read.csv('/user/datasets/ecbdl14/ECBDL14_IR2.data', header=False, inferSchema=True)
 
     cols = dataset.columns
 
-    sqlc = SQLContext(sc)
-    dataset = sqlc.read.csv('/user/datasets/ecbdl14/ECBDL14_IR2.data', header=False, inferSchema=True)
+    
 
     # replace  datset colums 
     for c in range(0, len(dataset.columns)):
