@@ -32,13 +32,16 @@ def read_data(sc):
     columsList.append('class')
 
     # read csv file with no heather and activating the infering schema mode
-    dataset = spark.read.csv("/user/datasets/ecbdl14/ECBDL14_IR2.data", header=False, inferSchema=True)
+    #dataset = spark.read.csv("/user/datasets/ecbdl14/ECBDL14_IR2.data", header=False, inferSchema=True)
 
     cols = dataset.columns
 
+    sqlc = SQLContext(sc)
+    dataset = sqlc.read.csv('/user/datasets/ecbdl14/ECBDL14_IR2.data', header=False, inferSchema=True)
+
     # replace  datset colums 
     for c in range(0, len(dataset.columns)):
-        dataset = dataset.withColumnRenamed(cols, columsList[c])
+        dataset = dataset.withColumnRenamed(cols[c], columsList[c])
 
     # select only my columns
     df = dataset.select(myColumns)
@@ -70,13 +73,11 @@ if __name__ == "__main__":
 
     sc.stop()
 
-    """ df = sc.read.csv("/user/ccsaDNI/fichero.csv", header = True, sep = ",", inferSchema = True)
-    
-    df.show() 
-    df.createOrReplaceTempView("sql_dataset")
-    sqlDF = sc.sql("SELECT campo1, camp3, ... c6 FROM sql_dataset LIMIT 12") 
-    sqlDF.show()
-    lr = LogisticRegression(maxIter=10, regParam=0.3, elasticNetParam=0.8) 
-    lrModel = lr.fit(sqlDF)
-    lrModel.summary() """
-    #df.collect() <- NO!
+    """ from functools import reduce
+
+    oldColumns = data.schema.names
+    newColumns = ["name", "age"]
+
+    df = reduce(lambda data, idx: data.withColumnRenamed(oldColumns[idx], newColumns[idx]), xrange(len(oldColumns)), data)
+    df.printSchema()
+    df.show() """
