@@ -12,7 +12,7 @@ spark = SparkSession \
 def set_conf():
     # create Spark context with Spark configuration 
     conf = SparkConf().setAppName("Practica 4 - Pablo Luque Moreno")
-    sc = SparkContext(conf=conf)
+    sc = SparkContext.getOrCreate(conf=conf)
     return sc
 
 def read_data(sc):
