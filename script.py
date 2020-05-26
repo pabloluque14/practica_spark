@@ -34,12 +34,14 @@ def read_data(sc):
     # read csv file with no heather and activating the infering schema mode
     dataset = spark.read.csv("/user/datasets/ecbdl14/ECBDL14_IR2.data", header=False, inferSchema=True)
 
+    cols = dataset.columns
+
     # replace  datset colums 
     for c in range(0, len(dataset.columns)):
-        data = dataset.withColumnRenamed(data.columns[c], columsList[c])
+        dataset = dataset.withColumnRenamed(cols, columsList[c])
 
     # select only my columns
-    df = data.select(myColumns)
+    df = dataset.select(myColumns)
     df.write.csv('./smallTrainSet', header=True, mode="overwrite")
     
     return df
