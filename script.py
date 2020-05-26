@@ -47,7 +47,7 @@ def read_data(sc):
 
     # select only my columns
     df = dataset.select(myColumns)
-    df.write.csv('./smallTrainSet', header=True, mode="overwrite")
+    df.write.csv('smallTrainSet', header=True, mode="overwrite")
     
     return df
 
