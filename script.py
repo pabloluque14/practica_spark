@@ -7,13 +7,13 @@ from pyspark.ml.classification import LogisticRegression
 spark = SparkSession \
     .builder \
     .appName("Practica 4 - Pablo Luque Moreno") \
-    .getOrCreate() #uso de spark session para crear dataframes
+    .getOrCreate() # we use spark session to create dataframes
 
 
 def set_conf():
     # create Spark context with Spark configuration 
     conf = SparkConf().setAppName("Practica 4 - Pablo Luque Moreno")
-    sc = SparkContext.getOrCreate(conf=conf)
+    sc = SparkContext.getOrCreate(conf = conf)
     return sc
 
 def read_data(sc):
@@ -40,7 +40,6 @@ def read_data(sc):
 
     cols = dataset.columns
 
-    
 
     # replace  datset colums 
     for c in range(0, len(dataset.columns)):
@@ -53,54 +52,11 @@ def read_data(sc):
     return df
 
 
-
-""" def logisticRegression():
-
-    # Load training data
-    training = spark.read.format("libsvm").load("./smallTrainSet")
-
-    lr = LogisticRegression(maxIter=10, regParam=0.3, elasticNetParam=0.8)
-
-    # Fit the model
-    lrModel = lr.fit(training)
-
-    # Print the coefficients and intercept for logistic regression
-    print("Coefficients: " + str(lrModel.coefficients))
-    print("Intercept: " + str(lrModel.intercept))
-
-    # We can also use the multinomial family for binary classification
-    mlr = LogisticRegression(maxIter=10, regParam=0.3, elasticNetParam=0.8, family="multinomial")
-
-    # Fit the model
-    mlrModel = mlr.fit(training)
-
-    # Print the coefficients and intercepts for logistic regression with multinomial family
-    print("Multinomial coefficients: " + str(mlrModel.coefficientMatrix))
-    print("Multinomial intercepts: " + str(mlrModel.interceptVector)) """
-
-
-
-
-
-
-
-
-
 if __name__ == "__main__":
 
     sc = set_conf()
     df = read_data(sc)
+    #print(df.head)
 
-
-    print(df.head)
-
+    #shutdown spark context
     sc.stop()
-
-    """ from functools import reduce
-
-    oldColumns = data.schema.names
-    newColumns = ["name", "age"]
-
-    df = reduce(lambda data, idx: data.withColumnRenamed(oldColumns[idx], newColumns[idx]), xrange(len(oldColumns)), data)
-    df.printSchema()
-    df.show() """
