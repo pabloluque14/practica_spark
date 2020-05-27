@@ -2,6 +2,7 @@ import sys
 from pyspark import SparkContext, SparkConf, SQLContext
 from pyspark.ml.classification import LogisticRegression
 from pyspark.sql import SparkSession
+from pyspark.ml.classification import LogisticRegression
 
 spark = SparkSession \
     .builder \
@@ -22,7 +23,7 @@ def read_data(sc):
     headers = headers.collect()
     
     # colums that I have to select from the dataset
-    myColumns = ['PSSM_central_1_P', 'PSSM_r1_3_H', 'PSSM_r1_2_F', 'PSSM_r2_0_G', 'PSSM_r1_-4_I', 'PSSM_r1_2_H']
+    myColumns = ['PSSM_central_1_P', 'PSSM_r1_3_H', 'PSSM_r1_2_F', 'PSSM_r2_0_G', 'PSSM_r1_-4_I', 'PSSM_r1_2_H', 'class']
 
     # filter only the inputs from the arff headers file
     columns = [head for head in headers if "@inputs" in head]
@@ -47,16 +48,36 @@ def read_data(sc):
 
     # select only my columns
     df = dataset.select(myColumns)
-    df.write.csv('smallTrainSet', header=True, mode="overwrite")
+    df.write.csv('./smallTrainSet', header=True, mode="overwrite")
     
     return df
 
 
 
+""" def logisticRegression():
 
-    
+    # Load training data
+    training = spark.read.format("libsvm").load("./smallTrainSet")
 
-    
+    lr = LogisticRegression(maxIter=10, regParam=0.3, elasticNetParam=0.8)
+
+    # Fit the model
+    lrModel = lr.fit(training)
+
+    # Print the coefficients and intercept for logistic regression
+    print("Coefficients: " + str(lrModel.coefficients))
+    print("Intercept: " + str(lrModel.intercept))
+
+    # We can also use the multinomial family for binary classification
+    mlr = LogisticRegression(maxIter=10, regParam=0.3, elasticNetParam=0.8, family="multinomial")
+
+    # Fit the model
+    mlrModel = mlr.fit(training)
+
+    # Print the coefficients and intercepts for logistic regression with multinomial family
+    print("Multinomial coefficients: " + str(mlrModel.coefficientMatrix))
+    print("Multinomial intercepts: " + str(mlrModel.interceptVector)) """
+
 
 
 
