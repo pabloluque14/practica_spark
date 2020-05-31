@@ -4,10 +4,10 @@ from pyspark.ml.classification import LogisticRegression
 from pyspark.sql import SparkSession
 from pyspark.ml.classification import LogisticRegression
 
-spark = SparkSession \
+''' spark = SparkSession \
     .builder \
     .appName("Practica 4 - Pablo Luque Moreno") \
-    .getOrCreate() # we use spark session to create dataframes
+    .getOrCreate() # we can use spark session to create dataframes '''
 
 
 def set_conf():
